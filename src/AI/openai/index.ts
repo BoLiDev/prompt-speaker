@@ -114,13 +114,13 @@ class LiveTranscriptionService {
       session: {
         input_audio_transcription: {
           model: this.config.model || "gpt-4o-transcribe",
-          language: this.config.language || "en",
+          language: this.config.language || "zh",
         },
         turn_detection: {
-          prefix_padding_ms: 100,
-          silence_duration_ms: 200,
+          prefix_padding_ms: 500,
+          silence_duration_ms: 800,
+          threshold: 0.3,
           type: "server_vad",
-          threshold: 0.5,
         },
       },
     };

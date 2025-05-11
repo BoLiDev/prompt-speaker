@@ -2,7 +2,7 @@
 
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { useLiveTranscriptionStore } from "@src/stores";
+import { useLiveTranscriptionStore, useRefineStore } from "@src/stores";
 import { copyToClipboard } from "@src/utils";
 
 interface LiveTranscriptionProps {
@@ -16,12 +16,14 @@ interface LiveTranscriptionProps {
 const LiveTranscription: React.FC<LiveTranscriptionProps> = observer(
   ({ onComplete }) => {
     const liveTranscriptionStore = useLiveTranscriptionStore();
+    const refineStore = useRefineStore();
 
     const text = liveTranscriptionStore.transcript;
     const errorText = liveTranscriptionStore.error;
 
     const handleStartRecording = () => {
       liveTranscriptionStore.startRecording();
+      refineStore.reset();
     };
 
     const handleStopRecording = () => {
