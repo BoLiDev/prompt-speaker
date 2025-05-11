@@ -1,11 +1,9 @@
 /** @format */
 
-import TransitionContainer from "@src/components/TransitionContainer";
-import RecordingView from "@src/components/RecordingView";
-import RefinementView from "@src/components/RefinementView";
 import ConfigPanel from "@src/components/ConfigPanel";
 import ConfigButton from "@src/components/ConfigPanel/ConfigButton";
 import CustomTitleBar from "@src/components/CustomTitleBar";
+import { V1UI } from "./components/v1";
 import { rootStore, StoreContext } from "@src/stores";
 
 function App() {
@@ -15,12 +13,7 @@ function App() {
         <CustomTitleBar />
         <ConfigButton className="absolute right-3 bottom-3" />
 
-        <div className="h-full">
-          <TransitionContainer>
-            <RecordingView />
-            <RefinementView />
-          </TransitionContainer>
-        </div>
+        <V1UI />
       </div>
 
       <ConfigPanel />
