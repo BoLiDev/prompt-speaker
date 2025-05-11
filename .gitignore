@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 
+.env
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -26,3 +28,7 @@ dist-ssr
 # AI
 .ai-requirement
 gen-lang-client-0315203804-8c8844577471.json
+
+
+# Release
+release
