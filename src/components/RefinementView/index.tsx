@@ -18,7 +18,7 @@ type RefinementViewProps = {
  */
 const RefinementView: React.FC<RefinementViewProps> = observer(({ onBack }) => {
   return (
-    <div className="flex flex-col h-full p-6 bg-slate-800">
+    <div className="flex flex-col h-full p-6">
       <BackButton onBack={onBack} />
       <OriginalTranscription />
       <RefinedResult />

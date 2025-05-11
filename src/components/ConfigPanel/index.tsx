@@ -26,7 +26,7 @@ const ConfigPanel: React.FC = observer(() => {
 
   return (
     <div className="fixed inset-0 bg-slate-900/80 z-50 flex items-center justify-center">
-      <div className="bg-slate-800 rounded-lg p-6 w-11/12 max-w-md border border-slate-700 shadow-xl">
+      <div className="rounded-lg p-6 w-11/12 max-w-md border border-slate-700 shadow-xl">
         <h2 className="text-xl font-semibold text-white mb-4">Configuration</h2>
 
         <div className="mb-4">

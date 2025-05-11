@@ -26,6 +26,16 @@ let win: BrowserWindow | null;
 function createWindow() {
   win = new BrowserWindow({
     icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
+    width: 960,
+    height: 680,
+    // 使用系统原生的标题栏和控件
+    titleBarStyle: "hidden",
+    // 在macOS上制造无框架窗口的错觉，同时保留系统按钮和标题
+    trafficLightPosition: { x: 15, y: 10 },
+    // 透明背景
+    backgroundColor: "#00000000",
+    // 窗口圆角
+    roundedCorners: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.mjs"),
       nodeIntegration: true,

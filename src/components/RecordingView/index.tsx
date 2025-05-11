@@ -15,7 +15,7 @@ type RecordingViewProps = {
 const RecordingView: React.FC<RecordingViewProps> = observer(
   ({ onComplete }) => {
     return (
-      <div className="flex flex-col h-full p-6 bg-slate-900">
+      <div className="flex flex-col h-full p-6">
         <div className="flex-1 flex flex-col items-center justify-center">
           <LiveTranscription onComplete={onComplete} />
           <ErrorMessage />

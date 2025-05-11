@@ -3,7 +3,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { useLiveTranscriptionStore, useRefineStore } from "@src/stores";
-import { copyToClipboard } from "@src/utils";
 
 interface LiveTranscriptionProps {
   onComplete?: () => void;
@@ -30,10 +29,6 @@ const LiveTranscription: React.FC<LiveTranscriptionProps> = observer(
       liveTranscriptionStore.stopRecording();
     };
 
-    const handleCopyText = () => {
-      copyToClipboard(liveTranscriptionStore.transcript);
-    };
-
     const handleContinue = () => {
       if (onComplete) {
         onComplete();
@@ -45,7 +40,7 @@ const LiveTranscription: React.FC<LiveTranscriptionProps> = observer(
         return (
           <button
             onClick={handleStopRecording}
-            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors shadow-md"
+            className="px-4 py-2 bg-purple-400 hover:bg-purple-500 text-white rounded-md transition-colors shadow-md"
           >
             Stop Recording
           </button>
@@ -56,7 +51,7 @@ const LiveTranscription: React.FC<LiveTranscriptionProps> = observer(
         return (
           <button
             onClick={handleStopRecording} // Allow stopping during preparation
-            className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-md transition-colors shadow-md flex items-center"
+            className="px-4 py-2 bg-purple-400 hover:bg-purple-500 text-white rounded-md transition-colors shadow-md flex items-center"
           >
             <svg
               className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
@@ -96,9 +91,9 @@ const LiveTranscription: React.FC<LiveTranscriptionProps> = observer(
         return (
           <button
             onClick={handleStartRecording}
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md transition-colors shadow-md flex items-center"
+            className="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-md transition-colors shadow-md flex items-center"
           >
-            Start Recording
+            Voice it
           </button>
         );
       }
@@ -131,23 +126,9 @@ const LiveTranscription: React.FC<LiveTranscriptionProps> = observer(
       liveTranscriptionStore.isIdle && text && text.length > 0;
 
     return (
-      <div className="w-full max-w-2xl bg-slate-800 rounded-lg p-4 mb-6">
+      <div className="w-full max-w-2xl rounded-lg p-4 mb-6">
         <div className="mb-4 flex justify-between items-center">
-          <h3 className="text-lg font-medium text-slate-300">Speech to Text</h3>
-          <div className="flex space-x-2">
-            {renderPrimaryButton()}
-            <button
-              onClick={handleCopyText}
-              disabled={!text}
-              className={`px-4 py-2 border rounded-md transition-colors shadow-md ${
-                text
-                  ? "bg-slate-700 hover:bg-slate-600 text-white border-slate-600"
-                  : "bg-slate-800 text-slate-500 border-slate-700 cursor-not-allowed"
-              }`}
-            >
-              Copy Text
-            </button>
-          </div>
+          <div className="flex space-x-2">{renderPrimaryButton()}</div>
         </div>
 
         {liveTranscriptionStore.isError && errorText ? (
@@ -155,11 +136,11 @@ const LiveTranscription: React.FC<LiveTranscriptionProps> = observer(
             {errorText}
           </div>
         ) : (
-          <div className="p-4 bg-slate-700 rounded-lg text-slate-100 min-h-[200px] max-h-[400px] overflow-y-auto">
+          <div className="p-4 bg-slate-300 rounded-lg text-slate-100 min-h-[200px] max-h-[400px] overflow-y-auto">
             {text ? (
               <p className="whitespace-pre-wrap">{text}</p>
             ) : (
-              <p className="text-slate-400 italic">{getPlaceholderText()}</p>
+              <p className="text-slate-800 italic">{getPlaceholderText()}</p>
             )}
           </div>
         )}

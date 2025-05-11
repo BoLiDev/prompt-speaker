@@ -1,54 +1,78 @@
-import { ipcMain as _, app as n, BrowserWindow as c } from "electron";
-import o from "node:path";
-import { fileURLToPath as f } from "node:url";
-import E from "node:fs";
-import v from "node:os";
-const l = o.dirname(f(import.meta.url));
-process.env.APP_ROOT = o.join(l, "..");
-const s = process.env.VITE_DEV_SERVER_URL,
-  D = o.join(process.env.APP_ROOT, "dist-electron"),
-  a = o.join(process.env.APP_ROOT, "dist");
-process.env.VITE_PUBLIC = s ? o.join(process.env.APP_ROOT, "public") : a;
+import { ipcMain, app, BrowserWindow } from "electron";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import fs from "node:fs";
+import os from "node:os";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+process.env.APP_ROOT = path.join(__dirname, "..");
+const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
+const MAIN_DIST = path.join(process.env.APP_ROOT, "dist-electron");
+const RENDERER_DIST = path.join(process.env.APP_ROOT, "dist");
+process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, "public") : RENDERER_DIST;
 process.env.GRPC_DNS_RESOLVER = "native";
-let e;
-function p() {
-  (e = new c({
-    icon: o.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
+let win;
+function createWindow() {
+  win = new BrowserWindow({
+    icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
+    width: 960,
+    height: 680,
+    // 使用系统原生的标题栏和控件
+    titleBarStyle: "hidden",
+    // 在macOS上制造无框架窗口的错觉，同时保留系统按钮和标题
+    trafficLightPosition: { x: 15, y: 10 },
+    // 透明背景
+    backgroundColor: "#00000000",
+    // 窗口圆角
+    roundedCorners: true,
     webPreferences: {
-      preload: o.join(l, "preload.mjs"),
-      nodeIntegration: !0,
-      contextIsolation: !1,
-    },
-  })),
-    e.webContents.on("did-finish-load", () => {
-      e == null ||
-        e.webContents.send(
-          "main-process-message",
-          /* @__PURE__ */ new Date().toLocaleString(),
-        ),
-        console.log("📝 Renderer process loaded");
-    }),
-    s
-      ? (e.loadURL(s),
-        e.webContents.openDevTools(),
-        console.log("🔧 DevTools opened automatically in dev mode"))
-      : e.loadFile(o.join(a, "index.html"));
+      preload: path.join(__dirname, "preload.mjs"),
+      nodeIntegration: true,
+      contextIsolation: false
+    }
+  });
+  win.webContents.on("did-finish-load", () => {
+    win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
+    console.log("📝 Renderer process loaded");
+  });
+  if (VITE_DEV_SERVER_URL) {
+    win.loadURL(VITE_DEV_SERVER_URL);
+    win.webContents.openDevTools();
+    console.log("🔧 DevTools opened automatically in dev mode");
+  } else {
+    win.loadFile(path.join(RENDERER_DIST, "index.html"));
+  }
 }
-_.handle("create-temp-file", (i, t) => {
-  const d = v.tmpdir(),
-    m = t.prefix || "temp_",
-    R = t.extension ? `.${t.extension}` : "",
-    r = o.join(d, `${m}${Date.now()}${R}`);
-  return E.writeFileSync(r, ""), r;
+ipcMain.handle(
+  "create-temp-file",
+  (_, options) => {
+    const tempDir = os.tmpdir();
+    const prefix = options.prefix || "temp_";
+    const extension = options.extension ? `.${options.extension}` : "";
+    const tempFilePath = path.join(
+      tempDir,
+      `${prefix}${Date.now()}${extension}`
+    );
+    fs.writeFileSync(tempFilePath, "");
+    return tempFilePath;
+  }
+);
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
+    app.quit();
+    win = null;
+  }
 });
-n.on("window-all-closed", () => {
-  process.platform !== "darwin" && (n.quit(), (e = null));
+app.on("activate", () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  }
 });
-n.on("activate", () => {
-  c.getAllWindows().length === 0 && p();
+app.whenReady().then(createWindow);
+process.on("uncaughtException", (error) => {
+  console.error("🚨 Uncaught exception in main process:", error);
 });
-n.whenReady().then(p);
-process.on("uncaughtException", (i) => {
-  console.error("🚨 Uncaught exception in main process:", i);
-});
-export { D as MAIN_DIST, a as RENDERER_DIST, s as VITE_DEV_SERVER_URL };
+export {
+  MAIN_DIST,
+  RENDERER_DIST,
+  VITE_DEV_SERVER_URL
+};
