@@ -14,10 +14,10 @@ function App() {
   return (
     <StoreContext.Provider value={rootStore}>
       <div className="min-h-screen bg-slate-100  flex flex-col">
-        <TitleBar />
+        <TitleBar className="non-selectable" />
         <div className={cx("app-container p-9 pt-0 flex w-full")}>
           <div className={cx("flex w-full")}>
-            <RecordingPanel className="flex-2" />
+            <RecordingPanel className="flex-2 non-selectable" />
             <MagicPanel className="flex-3" />
           </div>
         </div>

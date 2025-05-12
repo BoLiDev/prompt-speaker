@@ -25,7 +25,7 @@ export const ConfigPanel: React.FC = observer(() => {
   }
 
   return (
-    <div className="fixed inset-0 bg-transparent z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-transparent z-50 flex items-center justify-center non-selectable">
       <div className="rounded-lg bg-slate-200 p-6 w-11/12 max-w-md border border-slate-300 shadow-xl">
         <h2 className="text-xl font-semibold text-   mb-4">Configuration</h2>
 

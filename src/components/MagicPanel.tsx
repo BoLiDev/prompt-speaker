@@ -45,7 +45,7 @@ export const MagicPanel: React.FC<{
       <MarkdownDisplay
         markdown={getContent(placeholder)}
         weak={!transcript && !refinedText}
-        className="flex-1 text-xs wenkai overflow-y-scroll no-scrollbar"
+        className="flex-1 text-xs wenkai overflow-y-scroll no-scrollbar selectable"
       />
       <div className="absolute right-6 bottom-6 space-x-3 flex">
         {shouldShowCopyButton() && <ClipboardBtn text={getContent()} />}

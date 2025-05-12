@@ -27,7 +27,7 @@ export const MagicBtn: React.FC<{ className?: string }> = observer(
     return (
       <button
         className={cx(
-          "flex items-center justify-center p-3 rounded-full",
+          "flex items-center justify-center p-3 rounded-full non-selectable",
           "bg-purple-500 text-white",
           "transition-colors duration-200 shadow-md",
           className,

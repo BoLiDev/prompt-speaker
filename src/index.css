@@ -9,6 +9,21 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* 可选择文本的工具类 */
+  .selectable {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+}
+
+.non-selectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /* 定义拖拽区域，用于无边框窗口 */
@@ -31,6 +46,7 @@
   height: calc(100vh - 36px);
 }
 
+/* 全局默认禁止文本选择 */
 * {
   font-family: "Nunito", sans-serif;
 }

@@ -11,7 +11,7 @@ export const ClipboardBtn: React.FC<{
     <button
       className={cx(
         className,
-        "flex items-center justify-center p-3 rounded-full",
+        "flex items-center justify-center p-3 rounded-full non-selectable",
         "bg-slate-500 hover:bg-gray-700",
         "transition-colors duration-200",
       )}
