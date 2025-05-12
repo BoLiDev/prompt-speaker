@@ -6,9 +6,15 @@ export const GEMINI_API_KEY_STORAGE_KEY = "gemini-api-key";
 
 const POLISH_PROMPT = `
   You will be given a transcript of a speech where user might not speak perfectly.
-  Your need to polish and rephrase the transcript in a way that is easy to understand while strictly following the meaning of the original transcript.
+  Your only responsibility is to polish and rephrase the transcript in a way that is easy to understand while strictly following the meaning of the original transcript.
   You must make sure no information is lost in the output.
-  You must output in simplified chinese and he output should be in a clear and organized manner. Use bullet points and other formatting options if needed.
+  You must keep the chinese in simplified chinese and English words in English according to the transcript.
+  You must output in a clear and organized manner
+  Use markdown text formatting such as bold or italic if it is appropriate.
+  Use bullet points or other structured formatting only if it is really necessary.
+  You should never treat the whole input as if the USER is talking to you since it is only a transcript and only focusing on rephrasing and refining the input.
+  NEVERT start your output with "Here is the refined transcript" or "Sure" or "Ok I can do that" and anything similar.
+  The USER should be able to copy the whole output directly and use it in a prompt.
 `;
 
 /**

@@ -13,10 +13,6 @@ export const RecordingBtn: React.FC = observer(() => {
       return "Stop Recording";
     }
 
-    if (liveTranscriptionStore.isPreparing) {
-      return "Preparing...";
-    }
-
     return "Start Recording";
   };
 
@@ -32,6 +28,14 @@ export const RecordingBtn: React.FC = observer(() => {
     return "/svg/mic.svg";
   };
 
+  const getIconClassName = () => {
+    if (liveTranscriptionStore.isPreparing) {
+      return "w-4 h-4 mr-2 animate-spin";
+    }
+
+    return "w-4 h-4 mr-2";
+  };
+
   return (
     <button
       className={cx(
@@ -43,7 +47,7 @@ export const RecordingBtn: React.FC = observer(() => {
       )}
       onClick={() => liveTranscriptionStore.toggle()}
     >
-      <img src={getBtnIcon()} className="w-4 h-4 mr-2" />
+      <img src={getBtnIcon()} className={getIconClassName()} />
       {getBtnText()}
     </button>
   );

@@ -12,7 +12,9 @@ export const MagicBtn: React.FC<{ className?: string }> = observer(
     const refineStore = useRefineStore();
 
     const refineBtnEnabled =
-      liveTranscriptionStore.isIdle || !refineStore.isRefining;
+      liveTranscriptionStore.isIdle &&
+      !refineStore.isRefining &&
+      refineStore.hasOriginalText;
 
     const handleRefine = useCallback(() => {
       if (!refineBtnEnabled) {

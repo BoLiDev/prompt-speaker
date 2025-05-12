@@ -117,8 +117,8 @@ class LiveTranscriptionService {
           language: this.config.language || "zh",
         },
         turn_detection: {
-          prefix_padding_ms: 500,
-          silence_duration_ms: 800,
+          prefix_padding_ms: 300,
+          silence_duration_ms: 300,
           threshold: 0.3,
           type: "server_vad",
         },
