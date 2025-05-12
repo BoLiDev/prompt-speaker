@@ -9,6 +9,7 @@ import { MIN_WINDOW_HEIGHT } from "./constants";
 import { WINDOW_HEIGHT } from "./constants";
 import { WINDOW_WIDTH } from "./constants";
 import { MIN_WINDOW_WIDTH } from "./constants";
+import { globalShortcutManager } from "./globalShortcuts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -42,11 +43,31 @@ function createWindow() {
     backgroundColor: "#00000000",
     // window rounded corners
     roundedCorners: true,
+    // Spotlight style window configuration
+    frame: false, // no frame
+    skipTaskbar: false, // show in taskbar
+    center: true, // center window
+    resizable: true, // allow resizing
+    fullscreenable: false, // disable fullscreen
+    show: false, // create window but don't show it, wait for shortcut to show
+    hasShadow: true, // window has shadow
     webPreferences: {
       preload: path.join(__dirname, "preload.mjs"),
       nodeIntegration: true,
       contextIsolation: false,
     },
+  });
+
+  // set the main window reference for the global shortcut manager
+  globalShortcutManager.setMainWindow(win);
+
+  // listen to window blur event, automatically hide window (Spotlight behavior)
+  win.on("blur", () => {
+    // when the window loses focus, automatically hide it
+    if (win) {
+      win.setAlwaysOnTop(false);
+      win.hide();
+    }
   });
 
   // Test active push message to Renderer-process.
@@ -58,10 +79,7 @@ function createWindow() {
   // Open DevTools in development mode
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
-    win.webContents.openDevTools();
-    console.log("🔧 DevTools opened automatically in dev mode");
   } else {
-    // win.loadFile('dist/index.html')
     win.loadFile(path.join(RENDERER_DIST, "index.html"));
   }
 }
@@ -102,17 +120,28 @@ app.on("window-all-closed", () => {
   }
 });
 
+// on macOS, support reopening the window by clicking the dock icon
 app.on("activate", () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
+  } else if (win && !win.isVisible()) {
+    // if the window exists but is not visible, show the window
+    globalShortcutManager.showWindow();
   }
 });
 
-app.whenReady().then(createWindow);
+// register global shortcuts
+app.whenReady().then(() => {
+  createWindow();
+  globalShortcutManager.registerAll();
+});
 
-// Add global error handling for uncaught exceptions in main process
+// unregister all shortcuts before the application exits
+app.on("will-quit", () => {
+  globalShortcutManager.unregisterAll();
+});
+
+// add global error handling for uncaught exceptions in main process
 process.on("uncaughtException", (error) => {
   console.error("🚨 Uncaught exception in main process:", error);
 });

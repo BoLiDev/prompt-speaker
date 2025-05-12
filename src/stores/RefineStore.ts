@@ -1,6 +1,6 @@
 /** @format */
 
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, reaction } from "mobx";
 import { generateRefinement } from "@src/AI";
 import { getUserErrorMessage, logError } from "@src/utils";
 import { LiveTranscriptionStore } from "./LiveTranscriptionStore";
@@ -26,6 +26,13 @@ export class RefineStore {
     makeAutoObservable(this);
     this.liveTranscriptionStore = liveTranscriptionStore;
     this.rootStore = rootStore;
+
+    reaction(
+      () => liveTranscriptionStore.state,
+      () => {
+        this.reset();
+      },
+    );
   }
 
   /**
