@@ -2,6 +2,7 @@
 
 import { copyToClipboard } from "@src/utils";
 import cx from "classnames";
+import clipboardIcon from "../../public/svg/clipboard.svg";
 
 export const ClipboardBtn: React.FC<{
   className?: string;
@@ -20,7 +21,7 @@ export const ClipboardBtn: React.FC<{
         copyToClipboard(text);
       }}
     >
-      <img src="/svg/clipboard.svg" alt="Copy" className="w-5 h-5" />
+      <img src={clipboardIcon} alt="Copy" className="w-5 h-5" />
     </button>
   );
 };

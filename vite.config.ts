@@ -13,6 +13,17 @@ export default defineConfig({
       "@src": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    assetsInlineLimit: 0, // 禁用小资源内联，确保所有资源文件都被输出
+    // 确保静态资源被复制
+    rollupOptions: {
+      output: {
+        assetFileNames: "assets/[name].[ext]",
+      },
+    },
+  },
+  // 配置静态资源目录
+  publicDir: "public",
   plugins: [
     react(),
     tailwindcss(),

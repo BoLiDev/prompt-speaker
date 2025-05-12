@@ -9,7 +9,15 @@
   directories: {
     output: "release/${version}",
   },
-  files: ["dist", "dist-electron"],
+  files: [
+    "dist",
+    "dist-electron",
+    {
+      from: "public",
+      to: "dist",
+      filter: ["**/*"],
+    },
+  ],
   mac: {
     target: ["dmg"],
     artifactName: "${productName}-Mac-${version}-Installer.${ext}",
