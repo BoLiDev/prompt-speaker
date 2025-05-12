@@ -4,7 +4,7 @@ import { makeAutoObservable, reaction } from "mobx";
 import { generateRefinement } from "@src/AI";
 import { getUserErrorMessage, logError } from "@src/utils";
 import { LiveTranscriptionStore } from "./LiveTranscriptionStore";
-import { RootStore } from "./RootStore";
+import { ConfigStore } from "./ConfigStore";
 
 export class RefineStore {
   public isRefining: boolean = false;
@@ -12,7 +12,7 @@ export class RefineStore {
   public refinedText: string = "";
 
   private liveTranscriptionStore: LiveTranscriptionStore;
-  private rootStore?: RootStore;
+  private configStore: ConfigStore;
 
   /**
    * Creates a new RefineStore instance
@@ -21,11 +21,11 @@ export class RefineStore {
    */
   constructor(
     liveTranscriptionStore: LiveTranscriptionStore,
-    rootStore?: RootStore,
+    configStore: ConfigStore,
   ) {
     makeAutoObservable(this);
     this.liveTranscriptionStore = liveTranscriptionStore;
-    this.rootStore = rootStore;
+    this.configStore = configStore;
 
     reaction(
       () => liveTranscriptionStore.state,
@@ -51,8 +51,11 @@ export class RefineStore {
 
     try {
       // Get gemini API key from config store if available
-      const geminiApiKey = this.rootStore?.configStore.getGeminiApiKey();
-      this.refinedText = await generateRefinement(transcription, geminiApiKey);
+      const geminiApiKey = this.configStore.geminiApiKey;
+      this.refinedText = await generateRefinement(transcription, {
+        apiKey: geminiApiKey,
+        systemPrompt: this.configStore.systemPrompt,
+      });
     } catch (error) {
       logError("Text refinement error", error);
       this.refinementError = getUserErrorMessage(

@@ -16,8 +16,11 @@ export class RootStore {
    */
   constructor() {
     this.configStore = new ConfigStore();
-    this.liveTranscriptionStore = new LiveTranscriptionStore();
-    this.refineStore = new RefineStore(this.liveTranscriptionStore, this);
+    this.liveTranscriptionStore = new LiveTranscriptionStore(this.configStore);
+    this.refineStore = new RefineStore(
+      this.liveTranscriptionStore,
+      this.configStore,
+    );
     this.uiStore = new UIStore(this.liveTranscriptionStore, this);
   }
 

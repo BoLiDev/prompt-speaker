@@ -57,6 +57,18 @@ export interface LiveTranscriptionConfig {
    * Maximum number of reconnect attempts
    */
   maxReconnectAttempts?: number;
+  /**
+   * Prefix padding in milliseconds
+   */
+  prefix_padding_ms?: number;
+  /**
+   * Silence duration in milliseconds
+   */
+  silence_duration_ms?: number;
+  /**
+   * Threshold for VAD
+   */
+  threshold?: number;
 }
 
 /**

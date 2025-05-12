@@ -4,7 +4,7 @@ import { makeAutoObservable } from "mobx";
 import { LiveTranscriptionService } from "@src/AI";
 import { getUserErrorMessage, logError } from "@src/utils";
 import { AudioRecorder } from "@src/audio";
-import { rootStore } from "./index";
+import { ConfigStore } from "./ConfigStore";
 
 /**
  * Live Transcription State Enum
@@ -25,11 +25,13 @@ export class LiveTranscriptionStore {
   public error: string | null = null;
   private transcriptionService: LiveTranscriptionService | null = null;
   private audioRecorder: AudioRecorder | null = null;
+  private configStore: ConfigStore;
 
   /**
    * Create Live Transcription Store
    */
-  constructor() {
+  constructor(configStore: ConfigStore) {
+    this.configStore = configStore;
     makeAutoObservable(this);
   }
 
@@ -124,7 +126,7 @@ export class LiveTranscriptionStore {
     }
 
     try {
-      const apiKey = rootStore.configStore.getApiKey();
+      const apiKey = this.configStore.openAIKey;
 
       if (!apiKey) {
         this.handleError(
@@ -132,7 +134,7 @@ export class LiveTranscriptionStore {
             "OpenAI API key is not set. Please configure it in settings.",
           ),
         );
-        rootStore.configStore.openConfig();
+        this.configStore.openConfig();
         return;
       }
 
@@ -144,6 +146,10 @@ export class LiveTranscriptionStore {
         },
         {
           apiKey: apiKey,
+          prefix_padding_ms: this.configStore.prefixPadding,
+          silence_duration_ms: this.configStore.silenceDuration,
+          threshold: this.configStore.vadThreshold,
+          model: this.configStore.model,
         },
       );
 
