@@ -5,6 +5,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import fs from "node:fs";
 import os from "node:os";
+import { MIN_WINDOW_HEIGHT } from "./constants";
+import { WINDOW_HEIGHT } from "./constants";
+import { WINDOW_WIDTH } from "./constants";
+import { MIN_WINDOW_WIDTH } from "./constants";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -18,7 +22,7 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
   ? path.join(process.env.APP_ROOT, "public")
   : RENDERER_DIST;
 
-// 支持gRPC需要强制使用Node.js DNS解析器
+// support gRPC
 process.env.GRPC_DNS_RESOLVER = "native";
 
 let win: BrowserWindow | null;
@@ -26,15 +30,17 @@ let win: BrowserWindow | null;
 function createWindow() {
   win = new BrowserWindow({
     icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
-    width: 960,
-    height: 680,
-    // 使用系统原生的标题栏和控件
+    width: WINDOW_WIDTH,
+    height: WINDOW_HEIGHT,
+    minWidth: MIN_WINDOW_WIDTH,
+    minHeight: MIN_WINDOW_HEIGHT,
+    // use system native title bar and controls
     titleBarStyle: "hidden",
-    // 在macOS上制造无框架窗口的错觉，同时保留系统按钮和标题
+    // make the window look like a native window on macOS, while keeping the system buttons and title
     trafficLightPosition: { x: 15, y: 10 },
-    // 透明背景
+    // transparent background
     backgroundColor: "#00000000",
-    // 窗口圆角
+    // window rounded corners
     roundedCorners: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.mjs"),
@@ -61,12 +67,12 @@ function createWindow() {
 }
 
 /**
- * 创建临时文件
+ * create a temporary file
  *
- * @param options 临时文件选项
- * @param options.prefix 文件名前缀
- * @param options.extension 文件扩展名（不含点）
- * @returns 临时文件路径
+ * @param options temporary file options
+ * @param options.prefix file name prefix
+ * @param options.extension file extension (without dot)
+ * @returns temporary file path
  */
 ipcMain.handle(
   "create-temp-file",
@@ -79,7 +85,7 @@ ipcMain.handle(
       `${prefix}${Date.now()}${extension}`,
     );
 
-    // 创建一个空文件
+    // create an empty file
     fs.writeFileSync(tempFilePath, "");
 
     return tempFilePath;
