@@ -3,6 +3,7 @@
 import RecordingView from "./RecordingView";
 import RefinementView from "./RefinementView";
 import TransitionContainer from "./TransitionContainer";
+import ConfigPanel from "./ConfigPanel";
 
 export const V1UI: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ export const V1UI: React.FC = () => {
         <RecordingView />
         <RefinementView />
       </TransitionContainer>
+      <ConfigPanel />
     </div>
   );
 };

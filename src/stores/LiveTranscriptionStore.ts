@@ -65,6 +65,19 @@ export class LiveTranscriptionStore {
     return this.state === LiveTranscriptionState.IDLE;
   }
 
+  public toggle(): void {
+    if (
+      this.state === LiveTranscriptionState.PREPARING ||
+      this.state === LiveTranscriptionState.ACTIVE
+    ) {
+      console.log("Stopping recording");
+      this.stopRecording();
+    } else {
+      console.log("Starting recording");
+      this.startRecording();
+    }
+  }
+
   /**
    * Start Recording and Live Transcription
    */

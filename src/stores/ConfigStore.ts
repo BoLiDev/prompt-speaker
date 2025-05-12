@@ -66,6 +66,10 @@ export class ConfigStore {
     return this.geminiApiKey;
   }
 
+  public toggle(): void {
+    this.isConfigOpen = !this.isConfigOpen;
+  }
+
   /**
    * Opens the configuration panel
    */

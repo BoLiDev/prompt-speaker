@@ -7,7 +7,7 @@ import React from "react";
  */
 const CustomTitleBar: React.FC = () => {
   return (
-    <div className="app-drag-region bg-slate-100 flex items-center px-4 h-9">
+    <div className="app-drag-region flex items-center px-4 h-9">
       {/* <div className="flex items-center flex-1 ml-16">
         <img
           src="/electron-vite.svg"
