@@ -6,6 +6,9 @@ import cx from "classnames";
 
 import { useLiveTranscriptionStore, useRefineStore } from "@src/stores";
 
+import magicWandIcon from "../../public/svg/magic-wand.svg";
+import loadingIcon from "../../public/svg/loading.svg";
+
 export const MagicBtn: React.FC<{ className?: string }> = observer(
   ({ className }) => {
     const liveTranscriptionStore = useLiveTranscriptionStore();
@@ -41,12 +44,12 @@ export const MagicBtn: React.FC<{ className?: string }> = observer(
       >
         {refineStore.isRefining ? (
           <img
-            src="/svg/loading.svg"
+            src={loadingIcon}
             alt="Loading"
             className="w-5 h-5 animate-spin"
           />
         ) : (
-          <img src="/svg/magic-wand.svg" alt="Magic Wand" className="w-5 h-5" />
+          <img src={magicWandIcon} alt="Magic Wand" className="w-5 h-5" />
         )}
       </button>
     );

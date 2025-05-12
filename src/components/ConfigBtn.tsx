@@ -3,6 +3,8 @@
 import { useConfigStore } from "@src/stores";
 import cx from "classnames";
 
+import settingsIcon from "../../public/svg/settings.svg";
+
 export function ConfigBtn() {
   const configStore = useConfigStore();
 
@@ -15,7 +17,7 @@ export function ConfigBtn() {
       )}
       onClick={() => configStore.toggle()}
     >
-      <img src="/svg/settings.svg" alt="Settings" className="w-4 h-4" />
+      <img src={settingsIcon} alt="Settings" className="w-4 h-4" />
     </button>
   );
 }

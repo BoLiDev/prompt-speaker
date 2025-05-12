@@ -5,6 +5,10 @@ import { useLiveTranscriptionStore } from "@src/stores";
 
 import cx from "classnames";
 
+import stopIcon from "../../public/svg/stop.svg";
+import loadingIcon from "../../public/svg/loading.svg";
+import micIcon from "../../public/svg/mic.svg";
+
 export const RecordingBtn: React.FC = observer(() => {
   const liveTranscriptionStore = useLiveTranscriptionStore();
 
@@ -18,14 +22,14 @@ export const RecordingBtn: React.FC = observer(() => {
 
   const getBtnIcon = () => {
     if (liveTranscriptionStore.isActive) {
-      return "/svg/stop.svg";
+      return stopIcon;
     }
 
     if (liveTranscriptionStore.isPreparing) {
-      return "/svg/loading.svg";
+      return loadingIcon;
     }
 
-    return "/svg/mic.svg";
+    return micIcon;
   };
 
   const getIconClassName = () => {
