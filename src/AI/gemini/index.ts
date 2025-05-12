@@ -14,7 +14,7 @@ You must keep the Chinese in simplified Chinese and English words in English acc
 
 You must output in a clear and organised manner
 
-Use markdown text formatting such as bold or italic if it is appropriate.
+Use markdown text formatting such as bold or italic to mark important parts if it is appropriate.
 
 Use bullet points or other structured formatting only if it is really necessary.
 

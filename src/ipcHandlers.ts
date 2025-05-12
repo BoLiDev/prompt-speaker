@@ -3,7 +3,7 @@
 import { ipcRenderer } from "electron";
 import { rootStore } from "./stores";
 import { clipboard } from "electron";
-
+import { cleanMarkdownFormatting } from "./utils/markdownUtils";
 /**
  * IPC消息处理器
  * 负责处理来自主进程的IPC消息
@@ -86,7 +86,7 @@ export class IpcHandlers {
         refineStore.refineTranscription().then(() => {
           //  当已精炼完成时，复制结果到剪贴板
           console.log("Executing: Copy result");
-          clipboard.writeText(refineStore.refinedText);
+          clipboard.writeText(cleanMarkdownFormatting(refineStore.refinedText));
         });
       } else {
         console.log("No context action available for current state");

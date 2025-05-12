@@ -1,12 +1,14 @@
 /** @format */
 
 import { logError } from "./errorUtils";
-
+import { cleanMarkdownFormatting } from "./markdownUtils";
 export function copyToClipboard(text: string): void {
-  if (!text) return;
+  const cleanedText = cleanMarkdownFormatting(text);
+
+  if (!cleanedText) return;
 
   navigator.clipboard
-    .writeText(text)
+    .writeText(cleanedText)
     .then(() => {
       // alert("Copied to clipboard");
     })
