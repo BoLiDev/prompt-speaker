@@ -66,7 +66,6 @@ function createWindow() {
     // when the window loses focus, automatically hide it
     if (win) {
       win.setAlwaysOnTop(false);
-      win.hide();
     }
   });
 

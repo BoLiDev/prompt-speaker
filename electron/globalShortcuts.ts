@@ -1,6 +1,6 @@
 /** @format */
 
-import { BrowserWindow, globalShortcut, screen } from "electron";
+import { BrowserWindow, globalShortcut } from "electron";
 
 /**
  * Global Shortcut Manager
@@ -164,23 +164,6 @@ export class GlobalShortcutManager {
    */
   public showWindow(): void {
     if (!this.mainWindow) return;
-
-    // get the current screen where the mouse is located
-    const cursorPoint = screen.getCursorScreenPoint();
-    const currentDisplay = screen.getDisplayNearestPoint(cursorPoint);
-
-    // calculate the position where the window should be placed (central position)
-    const x = Math.round(
-      currentDisplay.workArea.x +
-        (currentDisplay.workArea.width - this.mainWindow.getSize()[0]) / 2,
-    );
-    const y = Math.round(
-      currentDisplay.workArea.y +
-        (currentDisplay.workArea.height - this.mainWindow.getSize()[1]) / 3,
-    );
-
-    // ensure the window is displayed on the correct screen and set the position
-    this.mainWindow.setPosition(x, y);
 
     // if the window is minimized, restore the window
     if (this.mainWindow.isMinimized()) {
