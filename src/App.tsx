@@ -1,18 +1,28 @@
 /** @format */
 
-import CustomTitleBar from "@src/components/CustomTitleBar";
+import cx from "classnames";
+import {
+  ConfigPanel,
+  MagicPanel,
+  RecordingPanel,
+  TitleBar,
+} from "@src/components";
 
-// import { V1UI } from "@src/components/v1";
-import { V2UI } from "./v2-components";
 import { rootStore, StoreContext } from "@src/stores";
 
 function App() {
   return (
     <StoreContext.Provider value={rootStore}>
       <div className="min-h-screen bg-slate-100  flex flex-col">
-        <CustomTitleBar />
-        <V2UI />
+        <TitleBar />
+        <div className={cx("app-container p-9 pt-0 flex w-full")}>
+          <div className={cx("flex w-full")}>
+            <RecordingPanel className="flex-2" />
+            <MagicPanel className="flex-3" />
+          </div>
+        </div>
       </div>
+      <ConfigPanel />
     </StoreContext.Provider>
   );
 }
